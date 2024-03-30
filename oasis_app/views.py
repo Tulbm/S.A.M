@@ -29,13 +29,15 @@ def prompt(request):
         prompt1 = request.POST.get('prompt1')
         feeling = request.POST.get('feeling')
         stress_level = request.POST.get('stress_level')
+        print('---------DEBUG------------')
         print(f'{prompt1}, {feeling}, {stress_level}')
+        print('---------DEBUG------------')
         score = backend.predict(prompt1, feeling, stress_level)
         topics = backend.topics(prompt1)
-        print('---------DEBUG------------\n')
+        print('---------DEBUG------------')
         print(score)
         print(topics)
-        print('---------DEBUG------------\n')
+        print('---------DEBUG------------')
 
         if(score >= 0.6):
             response = backend.generate_bad(prompt1)
