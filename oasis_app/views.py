@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-import backend
+from oasis_app import backend
 
 # Create your views here.
 
