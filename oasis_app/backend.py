@@ -10,8 +10,7 @@ import time
 # Replace MODEL_ID with the model's name on Hugging Face; for example, "bert-base-uncased"
 loaded = False
 
-def query(payload, API_URL, headers):
-    def query(payload, max_retries=5):
+def query(payload, API_URL, headers, max_retries=5):
     retries = 0
     while retries < max_retries:
         response = requests.post(API_URL, headers=headers, json=payload)
@@ -32,6 +31,9 @@ def query(payload, API_URL, headers):
 
 
 def topics(text):
+    if text is None or len(text) == 0:
+        return []  # Return an empty list or handle this case appropriately
+
     text = text.translate(str.maketrans('', '', string.punctuation))
     text = text.replace("\n", " ")
     text = text.lower()
@@ -41,10 +43,19 @@ def topics(text):
     nouns = [token.text for token in doc if token.pos_ in ["NOUN", "PROPN"]]
     nouns = set(nouns)
 
+    # Check if the nouns are empty
+    if len(nouns) == 0:
+        return []  # Return an empty list or handle this case appropriately
+
     # create a dictionary from the text data
     dictionary = corpora.Dictionary([nouns])
     # create a corpus from the text data
     corpus = [dictionary.doc2bow(nouns)]
+
+    # Check if the corpus is empty
+    if len(corpus) == 0 or len(corpus[0]) == 0:
+        return []  # Return an empty list or handle this case appropriately
+
     # train the LDA model on the corpus
     ldamodel = models.LdaModel(corpus, num_topics=3, id2word=dictionary)
 
@@ -57,6 +68,7 @@ def topics(text):
         topic_list.append(topic[1].split('"')[1])
 
     return list(set(topic_list))
+
 
 
 
@@ -89,8 +101,11 @@ def predict(text, feeling, stress_level, loaded=False):
 
     if score is not None:
         score += 0.08 * stress_level
-
+    print('---------DEBUG------------')
+    print("Score as", score)
+    print('---------DEBUG------------')
     return score
+    
 
 
 def generate_bad(text):
