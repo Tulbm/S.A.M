@@ -49,3 +49,41 @@ function stopTyping() {
 document.getElementById('custom_prompt').addEventListener('click', stopTyping);
 
 typeSentence();
+
+
+
+//
+
+let currentQuestion = 1;
+const totalQuestions = 2;
+
+function showQuestion() {
+    const currentQuestionElement = document.getElementById(`question${currentQuestion}`);
+    currentQuestionElement.style.display = "flex";
+    currentQuestionElement.style.transform = "translateY(0)";
+}
+
+function nextQuestion() {
+    const currentQuestionElement = document.getElementById(`question${currentQuestion}`);
+    currentQuestionElement.style.display = "none"; // Hide current question
+    currentQuestionElement.style.transform = "translateY(-300%)";
+    currentQuestion++; // Move to the next question
+
+    if (currentQuestion > totalQuestions) {
+        alert('ok');
+        return; 
+    }
+
+    setTimeout(() => {
+        showQuestion();
+        updateProgressBar();
+    }, 500);
+}
+
+// Call showQuestion() to display the first question when the script runs
+showQuestion();
+
+function updateProgressBar() {
+    const progress = (currentQuestion / totalQuestions) * 100;
+    document.getElementById("progress").style.width = `${progress}%`;
+}

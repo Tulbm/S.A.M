@@ -30,7 +30,7 @@ body{
     flex-direction: column;
 }
 .question{
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     text-align: center;
@@ -62,4 +62,44 @@ body{
     background: linear-gradient(64deg, #0DCFDE 0%, #CAEBE8 67.01%);
     background-size: 200% 100%;
     transition: 0.5s ease-in-out;
+}
+.custom-control-label{
+    text-wrap: nowrap;
+    padding: 5px 2em;
+    border: 1.5px solid #00000072;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+.custom-radio span{
+    font-size: 30px;
+}
+.custom-radio label{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.custom-control-label:hover {
+    background-color: #0dd0de77;
+}
+
+.custom-control-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Style radio buttons when checked */
+.custom-control-input:checked + .custom-control-label {
+    background-color: #0DCFDE;
+    color: #fff;
+}
+.list-unstyled li a{
+    background-color: #0DCFDE;
+    color: #fff;
+    padding: 14px 18px;
+    display: block;
+    border-radius: 200px;
 }

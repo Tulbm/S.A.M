@@ -19,10 +19,10 @@
         <div id="progress-bar">
             <div id="progress"></div>
         </div>
-        <ul class="d-flex">
+        <ul class="d-flex list-unstyled">
             <li>
                 <a href="" class="active">
-                    <img src="{% static 'assets/images/user.svg' %}" alt="">
+                    <i class="fa fa-user"></i>
                 </a>
             </li>
         </ul>
@@ -36,7 +36,31 @@
             <div class="d-flex flex-column input-box">
               <input maxlength="300" id="custom_prompt" type="text" placeholder="Example: I feel lack of confidence" class="form-control">
             </div>
-          </div>
+        </div>
+        <div class="question" id="question2">
+            <div class="question-title">
+              <h2 class="mb-0">How emotionally stable you're?</h2>
+            </div>
+            <p class="mb-0">You can describe a problem, a life situation, or your current feelings.</p>
+            <div class="d-flex justify-content-center gap-4 input-box">
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline1">Feeling Happy <span>😊</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline2">Feeling Sad <span>😔</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline3">Feeling Low <span>😞</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline4">Feeling Confident <span>😎</span></label>
+                </div>
+            </div>            
+        </div>
     </div>
     <div class="flex-column align-items-center" id="question-btn">
         <button id="next-btn" onclick="nextQuestion()" class="btn btn-primary btn-lg">Next</button>
@@ -45,6 +69,7 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <script src="/frontend/static/js/main.js"></script>
+    <script src="https://kit.fontawesome.com/84e75a1ab5.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
