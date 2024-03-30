@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+import backend
 
 # Create your views here.
 
@@ -11,11 +12,16 @@ def prompt(request):
         prompt1 = request.POST.get('prompt1')
         feeling = request.POST.get('feeling')
         stress_level = request.POST.get('stress_level')
-        
+        score = backend.predict(prompt1, feeling, stress_level)
+        topics = backend.topics(prompt1)
+        if(score >= 0.6):
+            response = generate_bad(prompt1)
+        else:
+            response = "You are interested in: " + ", ".join(topics)
         result = {
             'prompt1': prompt1,
             'feeling': feeling,
             'stress_level': stress_level,
-            'dummy_response': f'{prompt1}, {feeling} and {stress_level}.'
+            'dummy_response': f'{response}'
         }
         return JsonResponse(result)
