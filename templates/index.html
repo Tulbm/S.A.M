@@ -143,19 +143,14 @@
                 var feeling = $('input[name=feeling]:checked').attr('id');  // Get the ID of the selected feeling
                 var stressLevel = $('input[name=stress_level]:checked').attr('id');  // Get the ID of the selected stress level
 
-                // Get CSRF token
-                var csrftoken = getCookie('csrftoken');
-
                 $.ajax({
                     type: 'POST',
                     url: '/prompt/',
                     data: {
                         'prompt1': prompt1,
                         'feeling': feeling,
-                        'stress_level': stressLevel
-                    },
-                    headers: {
-                        'X-CSRFToken': csrftoken
+                        'stress_level': stressLevel,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: function(response) {
                         // If all questions are answered, show completion
