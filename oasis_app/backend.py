@@ -59,7 +59,8 @@ def predict(text, feeling, stress_level):
     for item in output[0]:
         if item['label'] == 'Negative':
             score = item['score']
-    return (score += 0.08 * stress_level)
+    score += (0.08 * stress_level)
+    return score
 
 def generate_bad(text):
     API_KEY = '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'
