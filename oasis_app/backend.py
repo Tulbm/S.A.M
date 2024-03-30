@@ -11,8 +11,24 @@ import time
 loaded = False
 
 def query(payload, API_URL, headers):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    return response.json()
+    def query(payload, max_retries=5):
+    retries = 0
+    while retries < max_retries:
+        response = requests.post(API_URL, headers=headers, json=payload)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            # Assuming the API returns a specific message for loading models
+            # You might need to adjust the error message check based on actual API responses
+            error = response.json()
+            if "error" in error and "Model is loading" in error["error"]:
+                print("Model is loading, waiting...")
+                time.sleep(15)  # Wait for 15 seconds before retrying
+                retries += 1
+            else:
+                # If the error is not related to model loading, break the loop and return the error
+                return error
+    return {"error": "Max retries exceeded or other error"}
 
 
 def topics(text):
