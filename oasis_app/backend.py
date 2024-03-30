@@ -4,6 +4,8 @@ from nltk.tokenize import word_tokenize
 import string
 import nltk
 import spacy
+import requests
+import time
 # Replace YOUR_API_KEY with your Hugging Face API key
 # Replace MODEL_ID with the model's name on Hugging Face; for example, "bert-base-uncased"
 loaded = False
@@ -42,25 +44,38 @@ def topics(text):
 
 
 
-def predict(text, feeling, stress_level):
+import requests
+import time
+
+def predict(text, feeling, stress_level, loaded=False):
     API_KEY = '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'
     MODEL_ID = 'DaJulster/Mental_health_identification'
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
-    input_text = f"I am feeling:{feeling}. " + text 
+    input_text = f"I am feeling: {feeling}. {text}" 
     headers = {"Authorization": f"Bearer {API_KEY}"}
-    if not loaded:
-        try:
-            output = query({"inputs": input_text}, API_URL, headers)
-        except:
-            time.sleep(10)
-            output = query({"inputs": input_text}, API_URL, headers)
-    else:
+
+    def query(payload, url, headers):
+        response = requests.post(url, json=payload, headers=headers)
+        response.raise_for_status()
+        return response.json()
+
+    try:
         output = query({"inputs": input_text}, API_URL, headers)
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        time.sleep(10)
+        output = query({"inputs": input_text}, API_URL, headers)
+
+    score = None
     for item in output[0]:
         if item['label'] == 'Negative':
             score = item['score']
-    score += (0.08 * stress_level)
+
+    if score is not None:
+        score += 0.08 * stress_level
+
     return score
+
 
 def generate_bad(text):
     API_KEY = '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'
