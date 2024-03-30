@@ -103,3 +103,6 @@ body{
     display: block;
     border-radius: 200px;
 }
+#completion{
+    display: none;
+}

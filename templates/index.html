@@ -1,0 +1,156 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peace AI | Your AI Companion</title>
+    <link rel="shortcut icon" href="{% static 'images/logo.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="d-flex justify-content-between container align-items-center py-3" id="navbar">
+        <div class="logo">
+            <a href="/"><img src="{% static 'images/logo.svg' %}" alt="" style="width: 100px;"></a>
+        </div>
+        <div id="progress-bar">
+            <div id="progress"></div>
+        </div>
+        <ul class="d-flex list-unstyled">
+            <li>
+                <a href="" class="active">
+                    <i class="fa fa-user"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="question-container">
+        <div class="question" id="question1">
+            <div class="question-title">
+              <h2 class="mb-0">Tell us about yourself</h2>
+            </div>
+            <p class="mb-0">You can describe a problem, a life situation, or your current feelings.</p>
+            <div class="d-flex flex-column input-box">
+              <input maxlength="300" id="custom_prompt" type="text" placeholder="Example: " class="form-control">
+            </div>
+        </div>
+        <div class="question" id="question2">
+            <div class="question-title">
+              <h2 class="mb-0">How emotionally stable you're?</h2>
+            </div>
+            <p class="mb-0">You can describe a problem, a life situation, or your current feelings.</p>
+            <div class="d-flex justify-content-center gap-4 input-box">
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline1">Feeling Happy <span>😊</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline2">Feeling Sad <span>😔</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline3">Feeling Low <span>😞</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline4">Feeling Confident <span>😎</span></label>
+                </div>
+            </div>            
+        </div>
+        <div class="question" id="question3">
+            <div class="question-title">
+                <h2 class="mb-0">Select your stress level accordingly.</h2>
+            </div>
+            <p class="mb-0">Please select a stress level based on the scale provided.</p>
+            <div class="d-flex justify-content-center gap-4 input-box">
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline1">1 <span>😃</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline2">2 <span>😐</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline3">3 <span>😕</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline4">4 <span>😔</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline5" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline5">5 <span>😣</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="question" id="question4">
+            <div class="question-title">
+                <h2 class="mb-0">Select your stress level accordingly.</h2>
+            </div>
+            <p class="mb-0">Please select a stress level based on the scale provided.</p>
+            <div class="d-flex justify-content-center gap-4 input-box">
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline1">1 <span>😃</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline2">2 <span>😐</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline3">3 <span>😕</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline4">4 <span>😔</span></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
+                    <input type="radio" id="customRadioInline5" name="customRadioInline1" class="custom-control-input">
+                    <label class="custom-control-label button-label" for="customRadioInline5">5 <span>😣</span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-column align-items-center" id="question-btn">
+        <button id="next-btn" onclick="nextQuestion()" class="btn btn-primary btn-lg">Next</button>
+    </div>
+    <div id="completion" class="text-center">
+        Completed
+    </div>
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-4" id="errorModalLabel" style="color: #FE5157;">Oops!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0 error-message">"Something happened. Please, reload the page or try again later.</p>
+                </div>
+                <div class="modal-footer justify-content-start">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="background-color: #FE5157;">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+        
+    </script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://kit.fontawesome.com/84e75a1ab5.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

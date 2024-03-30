@@ -1,0 +1,18 @@
+.DS_Store
+.idea/
+breath_in/settings.py
+migrations/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+
+db.sqlite3
