@@ -26,10 +26,9 @@ def query(payload, API_URL, headers, max_retries=5):
     return {"error": "Max retries exceeded or other error"}
 
 def text_query(payload, API_URL, headers, max_retries=5):
-    
-    payload["parameters"] = {"max_length": 150}
     retries = 0
     while retries < max_retries:
+        payload["parameters"] = {"max_length": 150}
         response = requests.post(API_URL, headers=headers, json=payload)
         if response.status_code == 200:
             return response.json()
