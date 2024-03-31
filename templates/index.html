@@ -70,23 +70,23 @@
             <p class="mb-0">Please select a stress level based on the scale provided.</p>
             <div class="d-flex justify-content-center gap-4 input-box">
                 <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
-                    <input type="radio" id="not-stressed" name="stress_level" class="custom-control-input" value="not-stressed">
+                    <input type="radio" id="not-stressed" name="stress_level" class="custom-control-input" value="1">
                     <label class="custom-control-label button-label" for="not-stressed">1 <span>😃</span></label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
-                    <input type="radio" id="dilemma" name="stress_level" class="custom-control-input" value="dilemma">
+                    <input type="radio" id="dilemma" name="stress_level" class="custom-control-input" value="2">
                     <label class="custom-control-label button-label" for="dilemma">2 <span>😐</span></label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
-                    <input type="radio" id="partially-stressed" name="stress_level" class="custom-control-input" value="partially-stressed">
+                    <input type="radio" id="partially-stressed" name="stress_level" class="custom-control-input" value="3">
                     <label class="custom-control-label button-label" for="partially-stressed">3 <span>😕</span></label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
-                    <input type="radio" id="stressed" name="stress_level" class="custom-control-input" value="stressed">
+                    <input type="radio" id="stressed" name="stress_level" class="custom-control-input" value="4">
                     <label class="custom-control-label button-label" for="stressed">4 <span>😔</span></label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline d-flex gap-2 align-items-center">
-                    <input type="radio" id="very-stressed" name="stress_level" class="custom-control-input" value="very-stressed">
+                    <input type="radio" id="very-stressed" name="stress_level" class="custom-control-input" value="5">
                     <label class="custom-control-label button-label" for="very-stressed">5 <span>😣</span></label>
                 </div>
             </div>
@@ -164,6 +164,29 @@
                 });
             });
         });
+        function fetchData() {
+            fetch('/prompt/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token if needed
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Access the generated text from the JSON response
+                var generatedText = data.generated_text;
+                
+                console.log(generatedText);
+                document.getElementById('completion').innerText = generatedText;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Call fetchData function when the page loads
+        window.onload = fetchData;
+
+
     </script>         
     
     <script src="https://kit.fontawesome.com/84e75a1ab5.js" crossorigin="anonymous"></script>

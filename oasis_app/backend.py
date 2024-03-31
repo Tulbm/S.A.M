@@ -6,8 +6,6 @@ import nltk
 import spacy
 import requests
 import time
-# Replace YOUR_API_KEY with your Hugging Face API key
-# Replace MODEL_ID with the model's name on Hugging Face; for example, "bert-base-uncased"
 loaded = False
 
 def query(payload, API_URL, headers, max_retries=5):
@@ -17,8 +15,6 @@ def query(payload, API_URL, headers, max_retries=5):
         if response.status_code == 200:
             return response.json()
         else:
-            # Assuming the API returns a specific message for loading models
-            # You might need to adjust the error message check based on actual API responses
             error = response.json()
             if "error" in error and "Model is loading" in error["error"]:
                 print("Model is loading, waiting...")
@@ -112,7 +108,7 @@ async def predict(text, feeling, stress_level, loaded=False):
         return score
         
     
-def generate_good(text):
+async def generate_good(text):
     API_KEY = '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'
     MODEL_ID = 'DaJulster/Mental_health_response'
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
@@ -138,7 +134,7 @@ def generate_good(text):
 
         return output[0]['generated_text']
 
-def generate_bad(text):
+async def generate_bad(text, feeling):
     API_KEY = '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'
     MODEL_ID = 'DaJulster/Mental_health_response'
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
