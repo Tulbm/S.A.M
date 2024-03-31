@@ -8,10 +8,26 @@ import requests
 import time
 loaded = False
 
-def query(payload, API_URL, headers, isGen, max_retries=5):
-    max_length = 100
-    if(isGen):
-        payload["parameters"] = {"max_length": max_length}
+def query(payload, API_URL, headers, max_retries=5):
+    retries = 0
+    while retries < max_retries:
+        response = requests.post(API_URL, headers=headers, json=payload)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            error = response.json()
+            if "error" in error and "Model is loading" in error["error"]:
+                print("Model is loading, waiting...")
+                time.sleep(15)  # Wait for 15 seconds before retrying
+                retries += 1
+            else:
+                # If the error is not related to model loading, break the loop and return the error
+                return error
+    return {"error": "Max retries exceeded or other error"}
+
+def text_query(payload, API_URL, headers, max_retries=5):
+    
+    payload["parameters"] = {"max_length": 150}
     retries = 0
     while retries < max_retries:
         response = requests.post(API_URL, headers=headers, json=payload)
@@ -123,17 +139,17 @@ async def generate_good(text):
 
     input_text = f"I am interested in {tlist}. {text}" 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers, isGen = 1):
+        async def text_query(payload, url, headers):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
 
         try:
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await text_query({"inputs": input_text}, API_URL, headers)
         except Exception as e:
             print(f"Error occurred: {e}")
             await asyncio.sleep(10)
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await text_query({"inputs": input_text}, API_URL, headers)
 
         return output[0]['generated_text']
 
@@ -145,17 +161,17 @@ async def generate_bad(text, feeling):
     headers = {"Authorization": f"Bearer {API_KEY}"}
 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers, isGen = 1):
+        async def text_query(payload, url, headers, isGen = 1):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
 
         try:
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await text_query({"inputs": input_text}, API_URL, headers)
         except Exception as e:
             print(f"Error occurred: {e}")
             await asyncio.sleep(10)
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await text_query({"inputs": input_text}, API_URL, headers)
 
         return output[0]['generated_text']
 
