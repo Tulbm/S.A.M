@@ -25,6 +25,6 @@ def generate_text(project_id: str, location: str, prompt) -> str:
     #print(response)
     return response.text
 
-str = generate_text('genaigenesis','us-central1','hi') 
+str = generate_text('genaigenesis','us-central1','Im feeling sad') 
 
 print(str)
