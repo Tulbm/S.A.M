@@ -7,8 +7,11 @@ import asyncio
 from oasis_app import backend
 import test
 from oasis_app import text_generation
-import json
-from oasis_app import prompting
+import requests
+
+async def main(prompt1, feel):
+    result = await text_generation.generate_bad(prompt1, feel)
+    return result
 
 def index(request):
     return render(request, 'index.html')
@@ -33,17 +36,15 @@ def prompt(request):
             print("Result:", result)
         asyncio.run(test_predict())
 
-        async def main():
-            text = prompt1
-            feeling = feel
-
-            result = await text_generation.generate_bad(text, feeling)
-            print(result)
-                
-
-        generated_text = asyncio.run(main())
-
-        return JsonResponse({'generated_text': generated_text}, status=200)
+        result = asyncio.run(main(prompt1, feel))
+        response_data = {
+            'prompt1': prompt1,
+            'feel': feel,
+            'stress': stress,
+            'result': result
+        }
+        print(response_data['result'])
+        return JsonResponse(response_data, status=200)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
