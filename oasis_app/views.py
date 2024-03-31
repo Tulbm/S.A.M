@@ -55,9 +55,10 @@ async def analyze_data(prompt1, feeling, stress_level):
     await score
     print(score)
     if score is not None and score >= 0.6:
-        response = await backend.generate_bad(prompt1)
+        response = await backend.generate_response(text=prompt1, postive=False)
     else:
-        response = "You are interested in: " + ", ".join(topics)
+        prompt1 = "You are interested in: " + ", ".join(topics) + ". " + prompt1
+        response = await backend.generate_response(text=prompt1, postive=True)
     
     result = {
         'prompt1': prompt1,
