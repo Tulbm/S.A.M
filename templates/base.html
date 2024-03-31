@@ -88,7 +88,27 @@
                     
                     success: function(response) {
                         if (currentQuestion === totalQuestions) {
-                            $('#completion').html(response.dummy_response).show();
+                            var text = response.result;
+                            var index = 0;
+
+                            // Function to simulate typing effect
+                            function typeEffect() {
+                                if (index < text.length) {
+                                    $('#completion').append(text.charAt(index));
+                                    index++;
+                                } else {
+                                    clearInterval(typingInterval); // Stop the typing effect when the text is fully revealed
+                                }
+                            }
+                            
+                            $('#completion').html('').show(); // Clear existing content and show completion div
+
+                            // Start the typing effect timer
+                            var typingInterval = setInterval(typeEffect, 50); // Adjust the interval for typing speed
+                            
+                            $('#question-container').hide();
+                            $('#next-btn').attr('href', '/'); // Set href attribute
+                            $('#next-btn').html('Ask More');
                         }
                     },
                     error: function(xhr, errmsg, err) {
@@ -97,7 +117,6 @@
                 });
             });
         });
-        
     </script>         
     
     <script src="https://kit.fontawesome.com/84e75a1ab5.js" crossorigin="anonymous"></script>
