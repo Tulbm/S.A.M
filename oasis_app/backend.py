@@ -8,7 +8,10 @@ import requests
 import time
 loaded = False
 
-def query(payload, API_URL, headers, max_retries=5):
+def query(payload, API_URL, headers, isGen, max_retries=5):
+    max_length = 100
+    if(isGen):
+        payload["parameters"] = {"max_length": max_length}
     retries = 0
     while retries < max_retries:
         response = requests.post(API_URL, headers=headers, json=payload)
@@ -83,7 +86,7 @@ async def predict(text, feeling, stress_level, loaded=False):
     headers = {"Authorization": f"Bearer {API_KEY}"}
 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers):
+        async def query(payload, url, headers, isGen = 0):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
@@ -120,7 +123,7 @@ async def generate_good(text):
 
     input_text = f"I am interested in {tlist}. {text}" 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers):
+        async def query(payload, url, headers, isGen = 1):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
@@ -142,7 +145,7 @@ async def generate_bad(text, feeling):
     headers = {"Authorization": f"Bearer {API_KEY}"}
 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers):
+        async def query(payload, url, headers, isGen = 1):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
