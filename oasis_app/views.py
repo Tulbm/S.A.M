@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from oasis_app import backend
 from django.views.decorators.csrf import csrf_exempt
@@ -8,6 +8,7 @@ from oasis_app import backend
 import test
 from oasis_app import text_generation
 import requests
+import time
 
 async def main(prompt1, feel):
     result = await text_generation.generate_bad(prompt1, feel)
@@ -41,12 +42,13 @@ def prompt(request):
             'prompt1': prompt1,
             'feel': feel,
             'stress': stress,
-            'result': result
+            'result': result,
+            'dummy_response': f'{prompt1}, {feel} and {stress}. | {result}'
         }
         print(response_data['result'])
-        return render(request, 'index.html', response_data)
+        time.sleep(1)
+        return JsonResponse(response_data)
     else:
-        # Handle GET requests here
         return render(request, 'index.html')
     
 async def analyze_data(prompt1, feeling, stress_level):
