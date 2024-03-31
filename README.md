@@ -1,4 +1,4 @@
-# GenAIGenesis
+# S.A.M
 
 Project description:
 
