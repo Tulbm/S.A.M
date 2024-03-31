@@ -69,6 +69,3 @@ def prompt(request):
         return JsonResponse(response_data)
     else:
         return render(request, 'index.html')
-    
-
-
