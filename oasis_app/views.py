@@ -44,9 +44,10 @@ def prompt(request):
             'result': result
         }
         print(response_data['result'])
-        return JsonResponse(response_data, status=200)
+        return render(request, 'index.html', response_data)
     else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
+        # Handle GET requests here
+        return render(request, 'index.html')
     
 async def analyze_data(prompt1, feeling, stress_level):
     score = backend.predict(prompt1, feeling, stress_level)

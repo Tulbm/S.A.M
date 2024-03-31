@@ -153,10 +153,6 @@
                     },
                     
                     success: function(response) {
-                        // If all questions are answered, show completion
-                        if (currentQuestion === totalQuestions) {
-                            $('#completion').html(response.dummy_response).show();
-                        }
                         console.log(csrfmiddlewaretoken);
                     },
                     error: function(xhr, errmsg, err) {
@@ -165,22 +161,6 @@
                 });
             });
         });
-        function fetchData() {
-    fetch('/prompt/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')  // Include CSRF token
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        var result = data.response_data.result;
-        document.getElementById('completion').innerHTML = result;
-    })
-    .catch(error => console.error('Error:', error));
-}
-
     </script>         
     
     <script src="https://kit.fontawesome.com/84e75a1ab5.js" crossorigin="anonymous"></script>
