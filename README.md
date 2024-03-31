@@ -11,3 +11,14 @@ Frameworks and Libraries: Mention any frameworks or libraries that played a crit
 Platforms: Highlight any platforms or cloud services (e.g., Google Cloud) that your project leverages.
 Tools: Any other tools or software that were essential to your development process.
 Product Summary: Provide a clear and concise summary of what your product does. Describe its features, the user experience, and how it addresses the problem(s) you identified. Highlight any innovative aspects of your solution and how it utilizes AI or other technologies to achieve its goals.
+
+# GenAIGenesis
+
+Project description:
+
+
+Datasets used:
+https://www.kaggle.com/datasets/infamouscoder/mental-health-social-media
+https://www.kaggle.com/datasets/alexyarbor/depression-data-set-with-depression-level
+https://www.kaggle.com/datasets/reihanenamdari/mental-health-corpus
+https://www.kaggle.com/datasets/thedevastator/nlp-mental-health-conversations

@@ -5,9 +5,9 @@ from vertexai.generative_models import GenerativeModel, ChatSession
 # project_id = "genaigenesis"
 # location = "us-central1"
 
-vertexai.init(project='genaigenesis', location='us-central1')
+vertexai.init(project='genaigenesis', location='us-central1') #saving context has to be done in main
 model = GenerativeModel("gemini-1.0-pro")
-chat = model.start_chat()
+chat = model.start_chat()       
 
 def get_chat_response(chat: ChatSession, prompt: str) -> str:
     text_response = []
@@ -16,15 +16,18 @@ def get_chat_response(chat: ChatSession, prompt: str) -> str:
         text_response.append(chunk.text)
     return "".join(text_response)
 
-prompt = "Hello."
-print(prompt)
-print(get_chat_response(chat, prompt))
 
-prompt = "What are all the colors in a rainbow?"
-print(prompt)
-print(get_chat_response(chat, prompt))
 
-prompt = "Why does it appear when it rains?"
-print(prompt)
-print(get_chat_response(chat, prompt))
+
+# prompt = "Hello."
+# print(prompt)
+# print(get_chat_response(chat, prompt))
+
+# prompt = "What are all the colors in a rainbow?"
+# print(prompt)
+# print(get_chat_response(chat, prompt))
+
+# prompt = "Why does it appear when it rains?"
+# print(prompt)
+# print(get_chat_response(chat, prompt))
 

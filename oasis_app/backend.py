@@ -6,19 +6,18 @@ import nltk
 import spacy
 import requests
 import time
-# Replace YOUR_API_KEY with your Hugging Face API key
-# Replace MODEL_ID with the model's name on Hugging Face; for example, "bert-base-uncased"
 loaded = False
 
-def query(payload, API_URL, headers, max_retries=5):
+def query(payload, API_URL, headers, isGen, max_retries=5):
+    max_length = 100
+    if(isGen):
+        payload["parameters"] = {"max_length": max_length}
     retries = 0
     while retries < max_retries:
         response = requests.post(API_URL, headers=headers, json=payload)
         if response.status_code == 200:
             return response.json()
         else:
-            # Assuming the API returns a specific message for loading models
-            # You might need to adjust the error message check based on actual API responses
             error = response.json()
             if "error" in error and "Model is loading" in error["error"]:
                 print("Model is loading, waiting...")
@@ -87,7 +86,7 @@ async def predict(text, feeling, stress_level, loaded=False):
     headers = {"Authorization": f"Bearer {API_KEY}"}
 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers):
+        async def query(payload, url, headers, isGen = 0):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
@@ -112,7 +111,7 @@ async def predict(text, feeling, stress_level, loaded=False):
         return score
         
     
-def generate_good(text):
+async def generate_good(text):
     API_KEY = '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'
     MODEL_ID = 'DaJulster/Mental_health_response'
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
@@ -124,7 +123,7 @@ def generate_good(text):
 
     input_text = f"I am interested in {tlist}. {text}" 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers):
+        async def query(payload, url, headers, isGen = 1):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
@@ -138,7 +137,7 @@ def generate_good(text):
 
         return output[0]['generated_text']
 
-def generate_bad(text):
+async def generate_bad(text, feeling):
     API_KEY = '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'
     MODEL_ID = 'DaJulster/Mental_health_response'
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
@@ -146,7 +145,7 @@ def generate_bad(text):
     headers = {"Authorization": f"Bearer {API_KEY}"}
 
     async with aiohttp.ClientSession() as session:
-        async def query(payload, url, headers):
+        async def query(payload, url, headers, isGen = 1):
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()

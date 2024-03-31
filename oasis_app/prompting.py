@@ -8,10 +8,6 @@ from oasis_app import backend
 import test
 from oasis_app import text_generation
 import json
-from oasis_app import prompting
-
-def index(request):
-    return render(request, 'index.html')
 
 def prompt(request):
     if request.method == 'POST':
@@ -43,26 +39,4 @@ def prompt(request):
 
         generated_text = asyncio.run(main())
 
-        return JsonResponse({'generated_text': generated_text}, status=200)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
-    
-async def analyze_data(prompt1, feeling, stress_level):
-    score = backend.predict(prompt1, feeling, stress_level)
-    topics = backend.topics(prompt1)
-    await score
-    print(score)
-    if score is not None and score >= 0.6:
-        response = await backend.generate_bad(prompt1)
-    else:
-        response = "You are interested in: " + ", ".join(topics)
-    
-    result = {
-        'prompt1': prompt1,
-        'feeling': feeling,
-        'stress_level': stress_level,
-        'dummy_response': response
-    }
-    
-    return await result
-
+        return generated_text
