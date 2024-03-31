@@ -121,17 +121,16 @@ async def generate_good(text):
     input_text = f"I am interested in {tlist}. {text}" 
     async with aiohttp.ClientSession() as session:
         async def query(payload, url, headers):
-            payload["parameters"] = {"max_length": 150}
             async with session.post(url, json=payload, headers=headers) as response:
                 response.raise_for_status()
                 return await response.json()
 
         try:
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await query({"inputs": input_text,"parameters": {"max_length": 150}}, API_URL, headers)
         except Exception as e:
             print(f"Error occurred: {e}")
             await asyncio.sleep(10)
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await query({"inputs": input_text,"parameters": {"max_length": 150}}, API_URL, headers)
 
         return output[0]['generated_text']
 
@@ -150,11 +149,11 @@ async def generate_bad(text, feeling):
                 return await response.json()
 
         try:
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await query({"inputs": input_text,"parameters": {"max_length": 150}}, API_URL, headers)
         except Exception as e:
             print(f"Error occurred: {e}")
             await asyncio.sleep(10)
-            output = await query({"inputs": input_text}, API_URL, headers)
+            output = await query({"inputs": input_text,"parameters": {"max_length": 150}}, API_URL, headers)
 
         return output[0]['generated_text']
 
