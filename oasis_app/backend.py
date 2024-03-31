@@ -105,31 +105,58 @@ async def predict(text, feeling, stress_level, loaded=False):
                 score = item['score']
 
         if score is not None:
-            score += 0.08 * stress_level
+            score += 0.02 * stress_level
         print('---------DEBUG------------')
         print("Score as", score)
         print('---------DEBUG------------')
         return score
         
     
+def generate_good(text):
+    API_KEY = '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'
+    MODEL_ID = 'DaJulster/Mental_health_response'
+    API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
+    headers = {"Authorization": f"Bearer {API_KEY}"}
 
+    topics = topics(text)
+
+    tlist = ', '.join(topics)
+
+    input_text = f"I am interested in {tlist}. {text}" 
+    async with aiohttp.ClientSession() as session:
+        async def query(payload, url, headers):
+            async with session.post(url, json=payload, headers=headers) as response:
+                response.raise_for_status()
+                return await response.json()
+
+        try:
+            output = await query({"inputs": input_text}, API_URL, headers)
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            await asyncio.sleep(10)
+            output = await query({"inputs": input_text}, API_URL, headers)
+
+        return output[0]['generated_text']
 
 def generate_bad(text):
     API_KEY = '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'
-    MODEL_ID = 'DaJulster/Mental_health_identification'
+    MODEL_ID = 'DaJulster/Mental_health_response'
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
-    input_text = text
+    input_text = f"I am feeling: {feeling}. {text}" 
     headers = {"Authorization": f"Bearer {API_KEY}"}
-    if not loaded:
+
+    async with aiohttp.ClientSession() as session:
+        async def query(payload, url, headers):
+            async with session.post(url, json=payload, headers=headers) as response:
+                response.raise_for_status()
+                return await response.json()
+
         try:
-            output = query({"inputs": input_text}, API_URL, headers)
-        except:
-            time.sleep(10)
-            output = query({"inputs": input_text}, API_URL, headers)
-    else:
-        output = query({"inputs": input_text}, API_URL, headers)
-    for item in output[0]:
-        if item['label'] == 'Negative':
-            score = item['score']
-    return score
+            output = await query({"inputs": input_text}, API_URL, headers)
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            await asyncio.sleep(10)
+            output = await query({"inputs": input_text}, API_URL, headers)
+
+        return output[0]['generated_text']
 
