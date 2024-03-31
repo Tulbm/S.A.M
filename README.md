@@ -7,13 +7,13 @@ Project Inspiration: Share the motivation behind your project. This could includ
 
 Technology Stack: Detail the technologies, frameworks, and tools you utilized to bring your project to life. Please include:
 
-Languages: List the programming languages used.
+Languages: HTML, CSS, JavaScript, Python
 
-Frameworks and Libraries: Mention any frameworks or libraries that played a critical role.
+Frameworks and Libraries: Transformers, spaCy, NLTK, pandas
 
-Platforms: Highlight any platforms or cloud services (e.g., Google Cloud) that your project leverages.
+Platforms: Kaggle (GPU hardaware accelerators), Jupyter Lab
 
-Tools: Any other tools or software that were essential to your development process.
+Tools: Github
 
 Product Summary: Provide a clear and concise summary of what your product does. Describe its features, the user experience, and how it addresses the problem(s) you identified. Highlight any innovative aspects of your solution and how it utilizes AI or other technologies to achieve its goals.
 
