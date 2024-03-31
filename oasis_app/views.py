@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from oasis_app import backend
 from django.views.decorators.csrf import csrf_exempt
 from .models import Prompt
-from oasis_app.utils import analyze_data
 import asyncio
 from oasis_app.views import backend  # Import your backend module here
 
@@ -21,6 +20,7 @@ def prompt(request):
         print('---------DEBUG------------')
         print(f'{prompt1}, {feeling}, {stress_level}')
         print('---------DEBUG------------')
+        analyze_data(prompt1, feeling, stress_level)
 
         return JsonResponse({'success': 'ok'}, status=200)
     else:
