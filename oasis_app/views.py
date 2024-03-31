@@ -16,39 +16,6 @@ async def main(prompt1, feel):
 def index(request):
     return render(request, 'index.html')
 
-def prompt(request):
-    if request.method == 'POST':
-        prompt1 = request.POST.get('prompt1')
-        feel = request.POST.get('feeling')
-        stress = request.POST.get('stress_level')
-        
-        print('---------DEBUG------------')
-        print(f'{prompt1}, {feel}, {stress}')
-        stress = int(stress)  
-        print('---------DEBUG------------')
-
-
-        async def test_predict():
-            text = prompt1
-            feeling = feel
-            stress_level = stress
-            result = await test.predict(text, feeling, stress_level)
-            print("Result:", result)
-        asyncio.run(test_predict())
-
-        result = asyncio.run(main(prompt1, feel))
-        response_data = {
-            'prompt1': prompt1,
-            'feel': feel,
-            'stress': stress,
-            'result': result
-        }
-        print(response_data['result'])
-        return render(request, 'index.html', response_data)
-    else:
-        # Handle GET requests here
-        return render(request, 'index.html')
-    
 async def analyze_data(prompt1, feeling, stress_level):
     score = backend.predict(prompt1, feeling, stress_level)
     topics = backend.topics(prompt1)
@@ -68,4 +35,39 @@ async def analyze_data(prompt1, feeling, stress_level):
     }
     
     return await result
+
+def prompt(request):
+    if request.method == 'POST':
+        prompt1 = request.POST.get('prompt1')
+        feel = request.POST.get('feeling')
+        stress = request.POST.get('stress_level')
+        
+        print('---------DEBUG------------')
+        print(f'{prompt1}, {feel}, {stress}')
+        stress = int(stress)  
+        print('---------DEBUG------------')
+
+
+        async def test_predict():
+            text = prompt1
+            feeling = feel
+            stress_level = stress
+            result = await backend.predict(text, feeling, stress_level)
+            print("Result:", result)
+        asyncio.run(test_predict())
+
+        result = asyncio.run(analyze_data(prompt1, feel, stress))
+        response_data = {
+            'prompt1': prompt1,
+            'feel': feel,
+            'stress': stress,
+            'result': result
+        }
+        print(response_data['result'])
+        return render(request, 'index.html', response_data)
+    else:
+        # Handle GET requests here
+        return render(request, 'index.html')
+    
+
 
