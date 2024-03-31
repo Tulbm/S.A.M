@@ -105,4 +105,13 @@ body{
 }
 #completion{
     display: none;
+    width: 60%;
+    margin: auto;
+    text-align: right;
+    line-height: 2;
+    font-size: 18px;
+    font-weight: 400;
+    background: #d3fcff;
+    padding: 16px;
+    border-radius: 11px;
 }
