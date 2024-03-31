@@ -1,9 +1,9 @@
 import asyncio
 import aiohttp
 
-async def predict(text, feeling, stress_level, loaded=False):
+async def generate_bad(text, feeling):
     API_KEY = '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'
-    MODEL_ID = 'DaJulster/Mental_health_identification'
+    MODEL_ID = 'DaJulster/Mental_health_response'
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
     input_text = f"I am feeling: {feeling}. {text}" 
     headers = {"Authorization": f"Bearer {API_KEY}"}
@@ -21,16 +21,6 @@ async def predict(text, feeling, stress_level, loaded=False):
             await asyncio.sleep(10)
             output = await query({"inputs": input_text}, API_URL, headers)
 
-        score = None
-        for item in output[0]:
-            if item['label'] == 'NEGATIVE':
-                score = item['score']
-
-        if score is not None:
-            score += 0.08 * stress_level
-        print('---------DEBUG------------')
-        print("Score as", score)
-        print('---------DEBUG------------')
-        return score
+        return output[0]['generated_text']
 
 
