@@ -18,15 +18,15 @@ def index(request):
     return render(request, 'index.html')
 
 async def analyze_data(prompt1, feeling, stress_level):
-    score = backend.predict(prompt1, feeling, stress_level)
-    topics = backend.topics(prompt1)
+    score = test.predict(prompt1, feeling, stress_level)
+    topics = test.extract_topics(prompt1)
     await score
     print(score)
     if score is not None and score >= 0.6:
-        response = await backend.generate_response(text=prompt1, postive=False)
+        response = await test.generate_response(text=prompt1, postive=False)
     else:
         prompt1 = "You are interested in: " + ", ".join(topics) + ". " + prompt1
-        response = await backend.generate_response(text=prompt1, postive=True)
+        response = await test.generate_response(text=prompt1, postive=True)
     
     result = {
         'prompt1': prompt1,
@@ -53,7 +53,7 @@ def prompt(request):
             text = prompt1
             feeling = feel
             stress_level = stress
-            result = await backend.predict(text, feeling, stress_level)
+            result = await test.predict(text, feeling, stress_level)
             print("Result:", result)
         asyncio.run(test_predict())
 
