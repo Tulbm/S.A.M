@@ -1,7 +1,7 @@
 # S.A.M
 
 ## Inspiration
-- Inspired by one of out group member's experience working with vulnerable individuals
+- Inspired by one of our group member's experience working with vulnerable individuals
 - Access to mental health services is not easily available. Counselling can be expensive, and the friction to get into sections can be a big obstacle for many
 - The third United Nation's Sustainable Development Goal, Good Health and Well-being
 ## What it does
@@ -23,6 +23,10 @@
 https://huggingface.co/DaJulster/Mental_health_identification
 
 https://huggingface.co/DaJulster/Mental_health_response
+
+https://www.kaggle.com/code/julienserbanescu/mental-health-response-model-e2e1fa
+
+https://www.kaggle.com/code/julienserbanescu/mental-health-identification-model 
 
 
 ## Datasets used
