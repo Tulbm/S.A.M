@@ -63,6 +63,7 @@ def prompt(request):
             'feel': feel,
             'stress': stress,
             'result': result,
+            'dummy_response': f'{prompt1}, {feel} and {stress}. | {result}'
         }
         print(response_data['result'])
         time.sleep(1)
