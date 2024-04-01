@@ -90,7 +90,7 @@
                         if (currentQuestion === totalQuestions) {
                             var text = response.result;
                             var index = 0;
-
+                            document.getElementById('your-question').innerHTML = prompt1 + ' and ' + feeling
                             // Function to simulate typing effect
                             function typeEffect() {
                                 if (index < text.length) {
@@ -100,7 +100,9 @@
                                     clearInterval(typingInterval); // Stop the typing effect when the text is fully revealed
                                 }
                             }
-                            
+                            $('#completion-container').show();
+                            $('#your-question').show();
+                            $('#my-question').show();
                             $('#completion').html('').show(); // Clear existing content and show completion div
 
                             // Start the typing effect timer

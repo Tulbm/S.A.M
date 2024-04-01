@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block questions %}
 <div id="question-container">
     <div class="question" id="question1">
@@ -66,7 +67,21 @@
 <div class="flex-column align-items-center" id="question-btn">
     <button id="next-btn" onclick="nextQuestion()" class="btn btn-primary btn-lg">Next</button>
 </div>
-<div id="completion" class="text-center">
+<div id="my-question">
+    <div class="d-flex gap-2 align-items-center mb-2">
+        <i class="fa fa-user" style="    background: aquamarine;
+        padding: 14px;
+        border-radius: 26px;"></i>
+        <p class="mb-0">Your Expressed: </p>
+    </div>
+    <p id="your-question"></p>
+</div>
+<div id="completion-container" class="">
+    <div class="d-flex gap-2 align-items-center mb-2">
+        <img src="{% static 'images/logo.svg' %}" alt="">
+        <p>S.A.M says:</p>
+    </div>
+    <p id="completion"></p>
     {{ result }}
 </div>
 {% endblock questions %} 

@@ -103,15 +103,28 @@ body{
     display: block;
     border-radius: 200px;
 }
-#completion{
+#completion, #your-question{
     display: none;
-    width: 60%;
-    margin: auto;
-    text-align: right;
+    text-align: left;
     line-height: 2;
     font-size: 18px;
     font-weight: 400;
+}
+#completion-container, #my-question{
+    display: none;
+    width: 60%;
+    margin: auto;
     background: #d3fcff;
     padding: 16px;
     border-radius: 11px;
+    margin-bottom: 10px;
+}
+#completion-container img{
+    border-radius: 68%;
+    object-fit: contain;
+    width: 53px;
+}
+#completion-container .d-flex p, #my-question .d-flex p{
+    font-weight: 700;
+    font-size: 19px;
 }
