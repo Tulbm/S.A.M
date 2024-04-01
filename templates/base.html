@@ -1,0 +1,128 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>S.A.M | Your AI Companion</title>
+    <link rel="shortcut icon" href="{% static 'images/logo.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="d-flex justify-content-between container align-items-center py-3" id="navbar">
+        <div class="logo">
+            <a href="/"><img src="{% static 'images/logo.svg' %}" alt="" style="width: 100px;"></a>
+        </div>
+        <div id="progress-bar">
+            <div id="progress"></div>
+        </div>
+        <ul class="d-flex list-unstyled">
+            <li>
+                <a href="" class="active">
+                    <i class="fa fa-user"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    {% block questions %}
+
+    {% endblock questions %}
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-4" id="errorModalLabel" style="color: #FE5157;">Oops!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0 error-message">"Something happened. Please, reload the page or try again later.</p>
+                </div>
+                <div class="modal-footer justify-content-start">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="background-color: #FE5157;">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript">
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        $(document).ready(function() {
+            $('#next-btn').click(function() {
+                var prompt1 = $('#custom_prompt').val();
+                var feeling = $('input[name=feeling]:checked').val();  // Get the ID of the selected feeling
+                var stressLevel = $('input[name=stress_level]:checked').val();  // Get the ID of the selected stress level
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/prompt/',
+                    data: {
+                        'prompt1': prompt1,
+                        'feeling': feeling,
+                        'stress_level': stressLevel,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    
+                    success: function(response) {
+                        if (currentQuestion === totalQuestions) {
+                            var text = response.result;
+                            var index = 0;
+                            document.getElementById('your-question').innerHTML = prompt1 + ' and ' + feeling
+                            // Function to simulate typing effect
+                            function typeEffect() {
+                                if (index < text.length) {
+                                    $('#completion').append(text.charAt(index));
+                                    index++;
+                                } else {
+                                    clearInterval(typingInterval); // Stop the typing effect when the text is fully revealed
+                                }
+                            }
+                            $('#completion-container').show();
+                            $('#your-question').show();
+                            $('#my-question').show();
+                            $('#completion').html('').show(); // Clear existing content and show completion div
+
+                            // Start the typing effect timer
+                            var typingInterval = setInterval(typeEffect, 50); // Adjust the interval for typing speed
+                            
+                            $('#question-container').hide();
+                            $('#next-btn').attr('href', '/'); // Set href attribute
+                            $('#next-btn').html('Ask More');
+                        }
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(xhr.status);
+                    }
+                });
+            });
+        });
+        
+    </script>         
+    
+    <script src="https://kit.fontawesome.com/84e75a1ab5.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

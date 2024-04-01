@@ -9,7 +9,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name="index"),
     path('prompt/', views.prompt, name='prompt'),
-
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

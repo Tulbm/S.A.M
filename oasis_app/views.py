@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from oasis_app import backend
 from django.views.decorators.csrf import csrf_exempt
@@ -8,6 +8,7 @@ from oasis_app import backend
 import test
 from oasis_app import text_generation
 import requests
+import time
 
 async def main(prompt1, feel):
     result = await text_generation.generate_bad(prompt1, feel)
@@ -15,26 +16,6 @@ async def main(prompt1, feel):
 
 def index(request):
     return render(request, 'index.html')
-
-async def analyze_data(prompt1, feeling, stress_level):
-    score = backend.predict(prompt1, feeling, stress_level)
-    topics = backend.topics(prompt1)
-    await score
-    print(score)
-    if score is not None and score >= 0.6:
-        response = await backend.generate_response(text=prompt1, postive=False)
-    else:
-        prompt1 = "You are interested in: " + ", ".join(topics) + ". " + prompt1
-        response = await backend.generate_response(text=prompt1, postive=True)
-    
-    result = {
-        'prompt1': prompt1,
-        'feeling': feeling,
-        'stress_level': stress_level,
-        'dummy_response': response
-    }
-    
-    return await result
 
 def prompt(request):
     if request.method == 'POST':
@@ -52,22 +33,39 @@ def prompt(request):
             text = prompt1
             feeling = feel
             stress_level = stress
-            result = await backend.predict(text, feeling, stress_level)
+            result = await test.predict(text, feeling, stress_level)
             print("Result:", result)
         asyncio.run(test_predict())
 
-        result = asyncio.run(analyze_data(prompt1, feel, stress))
+        result = asyncio.run(main(prompt1, feel))
         response_data = {
             'prompt1': prompt1,
             'feel': feel,
             'stress': stress,
-            'result': result
+            'result': result,
         }
         print(response_data['result'])
-        return render(request, 'index.html', response_data)
+        time.sleep(1)
+        return JsonResponse(response_data)
     else:
-        # Handle GET requests here
         return render(request, 'index.html')
     
-
+async def analyze_data(prompt1, feeling, stress_level):
+    score = backend.predict(prompt1, feeling, stress_level)
+    topics = backend.topics(prompt1)
+    await score
+    print(score)
+    if score is not None and score >= 0.6:
+        response = await backend.generate_bad(prompt1)
+    else:
+        response = "You are interested in: " + ", ".join(topics)
+    
+    result = {
+        'prompt1': prompt1,
+        'feeling': feeling,
+        'stress_level': stress_level,
+        'dummy_response': response
+    }
+    
+    return await result
 
