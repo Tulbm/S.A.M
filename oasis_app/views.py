@@ -16,6 +16,26 @@ async def main(prompt1, feel):
 def index(request):
     return render(request, 'index.html')
 
+async def analyze_data(prompt1, feeling, stress_level):
+    score = backend.predict(prompt1, feeling, stress_level)
+    topics = backend.topics(prompt1)
+    await score
+    print(score)
+    if score is not None and score >= 0.6:
+        response = await backend.generate_response(text=prompt1, postive=False)
+    else:
+        prompt1 = "You are interested in: " + ", ".join(topics) + ". " + prompt1
+        response = await backend.generate_response(text=prompt1, postive=True)
+    
+    result = {
+        'prompt1': prompt1,
+        'feeling': feeling,
+        'stress_level': stress_level,
+        'dummy_response': response
+    }
+    
+    return await result
+
 def prompt(request):
     if request.method == 'POST':
         prompt1 = request.POST.get('prompt1')
@@ -32,11 +52,11 @@ def prompt(request):
             text = prompt1
             feeling = feel
             stress_level = stress
-            result = await test.predict(text, feeling, stress_level)
+            result = await backend.predict(text, feeling, stress_level)
             print("Result:", result)
         asyncio.run(test_predict())
 
-        result = asyncio.run(main(prompt1, feel))
+        result = asyncio.run(analyze_data(prompt1, feel, stress))
         response_data = {
             'prompt1': prompt1,
             'feel': feel,
@@ -44,26 +64,10 @@ def prompt(request):
             'result': result
         }
         print(response_data['result'])
-        return JsonResponse(response_data, status=200)
+        return render(request, 'index.html', response_data)
     else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
+        # Handle GET requests here
+        return render(request, 'index.html')
     
-async def analyze_data(prompt1, feeling, stress_level):
-    score = backend.predict(prompt1, feeling, stress_level)
-    topics = backend.topics(prompt1)
-    await score
-    print(score)
-    if score is not None and score >= 0.6:
-        response = await backend.generate_bad(prompt1)
-    else:
-        response = "You are interested in: " + ", ".join(topics)
-    
-    result = {
-        'prompt1': prompt1,
-        'feeling': feeling,
-        'stress_level': stress_level,
-        'dummy_response': response
-    }
-    
-    return await result
+
 
